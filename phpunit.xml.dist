@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+    backupStaticAttributes="false"
+    colors="true"
+    convertErrorsToExceptions="true"
+    convertNoticesToExceptions="true"
+    convertWarningsToExceptions="true"
+    processIsolation="false"
+    stopOnFailure="false"
+    stopOnWarning="false"
+    bootstrap="config/bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="Main Test Suite">
+            <directory>tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>src/</directory>
+            <exclude>
+              <directory>src/Console/</directory>
+              <directory>*.config.php</directory>
+              <directory>*.map.php</directory>
+              <directory>*.template.php</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+
+    <!-- Customize your parameters ! -->
+    <php>
+        <const name="CLIENT_ID" value=""/>
+        <const name="ACCESS_TOKEN" value=""/>
+        <const name="VERBOSE" value=""/>
+        <const name="REGISTER_PATH" value=""/>
+    </php>
+</phpunit>
