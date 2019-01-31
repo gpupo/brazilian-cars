@@ -1,6 +1,6 @@
 {
     "name": "gpupo/brazilian-cars",
-    "description": "Acesso a informações de pacotes remetidos no Brasil",
+    "description": "Acesso a lista de automóveis comercializados no Brasil",
     "homepage": "https://opensource.gpupo.com/brazilian-cars/",
     "authors": [
         {
@@ -8,13 +8,12 @@
             "email": "contact@gpupo.com"
         }
     ],
-    "keywords": ["fipe", "sdk", "api"],
+    "keywords": ["cars", "sdk", "api"],
     "license": "MIT",
     "require": {
         "php": ">=7.3",
         "ext-soap" : "*",
-        "gpupo/common-sdk": "dev-master",
-        "zendframework/zend-soap": "^2.6"
+        "gpupo/common-sdk": "dev-master"
     },
     "require-dev": {
       "phpunit/phpunit": "^7.5",
