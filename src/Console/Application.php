@@ -27,8 +27,6 @@ final class Application extends AbstractApplication
 {
     public function factorySdk(array $options, LoggerInterface $logger = null, CacheInterface $cache = null): FactoryInterface
     {
-        $this->define('ENDPOINT_DOMAIN', $options['ENDPOINT_DOMAIN']);
-
         return new Factory($options, $logger, $cache);
     }
 }
