@@ -15,19 +15,26 @@ declare(strict_types=1);
  *
  */
 
-use Symfony\Component\Dotenv\Dotenv;
+namespace Gpupo\BrazilianCars\Tests\Client;
 
-if (!class_exists('\Gpupo\Common\Console\Application')) {
-    require __DIR__.'/../vendor/autoload.php';
-}
+use Gpupo\BrazilianCars\Client\Client;
+use Gpupo\BrazilianCars\Tests\TestCaseAbstract;
 
-if (!class_exists(Dotenv::class)) {
-    throw new RuntimeException('Please run "composer require symfony/dotenv" to load the ".env" files configuring the application.');
-}
+/**
+ * @coversNothing
+ */
+class ClientTest extends TestCaseAbstract
+{
+    public function dataProviderClient()
+    {
+        return [[new Client(getenv())]];
+    }
 
-// load all the .env files
-(new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
-
-if (!defined('ENDPOINT_DOMAIN')) {
-    define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
+    /**
+     * @dataProvider dataProviderClient
+     */
+    public function testBaseUrl(Client $object)
+    {
+        $this->assertSame('https://foo.bar/api/veiculos', $object->getOptions()->get('base_url'));
+    }
 }

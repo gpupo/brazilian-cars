@@ -15,19 +15,16 @@ declare(strict_types=1);
  *
  */
 
-use Symfony\Component\Dotenv\Dotenv;
+namespace Gpupo\BrazilianCars\Tests;
 
-if (!class_exists('\Gpupo\Common\Console\Application')) {
-    require __DIR__.'/../vendor/autoload.php';
-}
+use Gpupo\CommonSdk\Tests\TestCaseAbstract as CommonSdkTestCaseAbstract;
 
-if (!class_exists(Dotenv::class)) {
-    throw new RuntimeException('Please run "composer require symfony/dotenv" to load the ".env" files configuring the application.');
-}
+abstract class TestCaseAbstract extends CommonSdkTestCaseAbstract
+{
+    private $factory;
 
-// load all the .env files
-(new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
-
-if (!defined('ENDPOINT_DOMAIN')) {
-    define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
+    public static function getResourcesPath()
+    {
+        return \dirname(__DIR__).'/Resources/';
+    }
 }
