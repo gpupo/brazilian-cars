@@ -18,14 +18,74 @@ declare(strict_types=1);
 namespace Gpupo\BrazilianCars\Entity;
 
 use Gpupo\CommonSdk\Entity\GenericManager;
+use Gpupo\Common\Entity\CollectionInterface;
 
 class MainManager extends GenericManager
 {
+    protected $types = [
+        '1' => 'Car',
+        '2' => 'Motorcycle',
+        '3' => 'Truck',
+        //'4' => 'MotorizedBicycle',
+    ];
+
     public function getLists()
     {
         return $this->requestWithCache([
             'POST',
             '/ConsultarTabelaDeReferencia',
         ], 'lists');
+    }
+
+    public function getCurrentListId(): int
+    {
+        return (int) current($this->getLists()->first());
+    }
+
+    protected function normalizeBrand(array $item): array
+    {
+        $item['id'] = $item['Value'];
+        $item['name'] = $item['Label'];
+        unset($item['Value']);
+        unset($item['Label']);
+        $item['type'] = [];
+
+        return $item;
+    }
+
+    public function getBrands(bool $renew = false): CollectionInterface
+    {
+        $list = [];
+
+        foreach($this->types as $type_id => $type_name) {
+            $collection = $this->getBrandsWithType($type_id, $renew);
+            foreach($collection as $item) {
+                $item = $this->normalizeBrand($item);
+                $key = $item['name'];
+
+                if (!array_key_exists($key, $list)) {
+                    $list[$key] = $item;
+                }
+
+                $list[$key]['type'][] = ['id' => $type_id, 'name'=> $type_name];
+            }
+        }
+
+        sort($list);
+
+        return $this->factoryCollection($list);
+    }
+
+    protected function getBrandsWithType(int $type = 1, bool $renew = false): CollectionInterface
+    {
+        $body = [
+        	'codigoTabelaReferencia'=> $this->getCurrentListId(),
+        	'codigoTipoVeiculo'=> $type,
+        ];
+
+        return $this->requestWithCache([
+            'POST',
+            '/ConsultarMarcas',
+        ], 'marcas'.$type, json_encode($body), $renew);
     }
 }
