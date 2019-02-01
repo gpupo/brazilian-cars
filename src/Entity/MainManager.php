@@ -29,12 +29,12 @@ class MainManager extends GenericManager
         //'4' => 'MotorizedBicycle',
     ];
 
-    public function getLists()
+    public function getLists(bool $renew = false)
     {
         return $this->requestWithCache([
             'POST',
             '/ConsultarTabelaDeReferencia',
-        ], 'lists');
+        ], 'lists', null, $renew);
     }
 
     public function getCurrentListId(): int
