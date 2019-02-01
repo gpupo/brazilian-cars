@@ -17,26 +17,25 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use Gpupo\Common\Traits\TableTrait;
+use Gpupo\CommonSdk\Console\Command\AbstractCommand as Core;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
 
-final class LatestListsCommand extends AbstractCommand
+abstract class AbstractCommand extends Core
 {
+    use TableTrait;
+
     protected function configure()
     {
         $this
-            ->setName('lists')
-            ->setDescription('Tabelas de referência mais recentemente disponibilizadas');
-
-        parent::configure();
-    }
-
-    protected function execute(InputInterface $input, OutputInterface $output)
-    {
-        $manager = $this->getFactory()->factoryManager('main');
-        $collection = $manager->getLists($renew = (null === $input->getOption('no-cache')));
-        $l = array_values($collection->first());
-        $output->writeln(sprintf('Latest Table is <info>%s</> published in <fg=yellow>%s</>', ...$l));
-        $this->displayTableResults($output, $collection->slice(0, 3));
+            ->addOption(
+                'no-cache',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Should ignore cache?',
+                false
+            );
     }
 }

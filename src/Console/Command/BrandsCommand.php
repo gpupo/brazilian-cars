@@ -17,28 +17,19 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
-use Gpupo\Common\Traits\TableTrait;
-use Gpupo\CommonSdk\Console\Command\AbstractCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 final class BrandsCommand extends AbstractCommand
 {
-    use TableTrait;
-
     protected function configure()
     {
         $this
             ->setName('brands')
-            ->setDescription('Lista de marcas comercializadas')
-            ->addOption(
-                'no-cache',
-                null,
-                InputOption::VALUE_OPTIONAL,
-                'Should ignore cache?',
-                false
-            );
+            ->setDescription('Lista de marcas comercializadas');
+
+        parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
