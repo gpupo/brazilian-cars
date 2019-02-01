@@ -36,6 +36,13 @@ abstract class AbstractCommand extends Core
                 InputOption::VALUE_OPTIONAL,
                 'Should ignore cache?',
                 false
-            );
+            )
+            ->addOption(
+                'filter',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Name to filter',
+                false
+            )    ;
     }
 }

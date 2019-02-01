@@ -2,8 +2,7 @@
 /vendor/
 /var/
 app.json
-Resources/logs/*
-Resources/doc/*
+Resources/*
 *.phar
 *.lock
 *.cache
