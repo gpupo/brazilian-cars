@@ -44,6 +44,9 @@ class Factory extends FactoryAbstract
             'main' => [
                 'manager' => Entity\MainManager::class,
             ],
+            'vehicle' => [
+                'manager' => Entity\VehicleManager::class,
+            ],
         ];
     }
 }
