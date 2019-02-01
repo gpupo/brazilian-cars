@@ -23,7 +23,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Gpupo\Common\Entity\CollectionInterface;
 
-final class ModelsCommand extends AbstractCommand
+final class VehicleCommand extends AbstractCommand
 {
     use ResourcesTrait;
 
@@ -32,8 +32,8 @@ final class ModelsCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('models')
-            ->setDescription('Modelos comercializados');
+            ->setName('vehicle')
+            ->setDescription('Processa os modelos');
 
         parent::configure();
     }
@@ -41,17 +41,32 @@ final class ModelsCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->manager = $this->getFactory()->factoryManager('vehicle');
-        $collection = $this->manager->getModels($renew = (null === $input->getOption('no-cache')));
-        $this->saveResourceToYamlFile('var/data/models.yaml', $collection->toArray());
-        $detailedModels = $this->manager->detailedModels($collection);
-        $this->saveResourceToYamlFile('var/data/detailedModels.yaml', $detailedModels->toArray());
+        $collection = unserialize(file_get_contents('var/data/detailedModels.ser'));
 
-        $ser = serialize($detailedModels);
-        $file = fopen('var/data/detailedModels.ser', 'wb');
-        fwrite($file, $ser);
+        foreach($collection as $brand) {
+            $filter = $input->getOption('filter');
+            if(!empty($filter)) {
+                if (strtolower($filter) !== strtolower($brand->get('name'))) {
+                    continue;
+                }
+            }
 
-        $this->displayTableResults($output, $collection);
+            $this->unitBrand($output, $brand);
+        }
 
         $output->writeln('<info>Done</>');
+    }
+
+
+    protected function unitBrand(OutputInterface $output, CollectionInterface $brand): void
+    {
+        $output->writeln(sprintf('* %s <fg=blue>%s</>', ...array_values($brand->toArray())));
+        foreach($brand->get('models') as $model) {
+//            $output->writeln("\r\t".sprintf('%s) <info>%s</>', ...array_values($model->toArray())));
+            foreach($model->get('versions') as $version) {
+                $vehicle = $this->manager->createVehicle($brand, $model, $version);
+                $output->writeln("\r\t".sprintf('<fg=yellow>%s</>', $vehicle->getFullName()));
+            }
+        }
     }
 }
