@@ -24,6 +24,8 @@ class Client extends ClientAbstract implements ClientInterface
 {
     const ENDPOINT = ENDPOINT_DOMAIN.'/api/veiculos';
 
+    const CACHE_TTL = 86400 * 30;
+
     protected function renderAuthorization(): array
     {
         return [
