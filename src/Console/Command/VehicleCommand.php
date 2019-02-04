@@ -17,12 +17,13 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use Gpupo\BrazilianCars\Entity\VehicleCollection;
+use Gpupo\Common\Entity\CollectionInterface;
+use Gpupo\CommonSdk\Traits\ResourcesTrait;
+use Symfony\Component\Console\Helper\Table;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
-use Symfony\Component\Console\Input\InputArgument;
-use Gpupo\CommonSdk\Traits\ResourcesTrait;
-use Gpupo\Common\Entity\CollectionInterface;
 
 final class VehicleCommand extends AbstractCommand
 {
@@ -30,12 +31,15 @@ final class VehicleCommand extends AbstractCommand
 
     private $manager;
 
+    private $collection;
+
     protected function configure()
     {
         $this
             ->setName('vehicle')
             ->setDescription('Processa os modelos')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
+            ->addArgument('output-filename', InputArgument::OPTIONAL, 'A serialized filename path to output vehicle collection', 'var/data/vechicleCollection.php-serialized.ser')
             ;
 
         parent::configure();
@@ -43,13 +47,14 @@ final class VehicleCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->collection = new VehicleCollection();
         $filename = $input->getArgument('filename');
         $this->manager = $this->getFactory()->factoryManager('vehicle');
         $collection = $this->resourceDecodeSerializedFile($filename);
 
-        foreach($collection as $brand) {
+        foreach ($collection as $brand) {
             $filter = $input->getOption('filter');
-            if(!empty($filter)) {
+            if (!empty($filter)) {
                 if (strtolower($filter) !== strtolower($brand->get('name'))) {
                     continue;
                 }
@@ -58,29 +63,49 @@ final class VehicleCommand extends AbstractCommand
             $this->unitBrand($output, $brand);
         }
 
-        $output->writeln(sprintf('Filename <info>%s</> loaded', $filename));
-        $output->writeln('<info>Done</>');
+        $output->writeln(sprintf('Filename <info>%s</> loaded, <info>%s</> Vehicles', $filename, $this->collection->count()), OutputInterface::VERBOSITY_VERBOSE);
+        $this->saveResourceToSerializedFile($input->getArgument('output-filename'), $this->collection);
     }
-
 
     protected function unitBrand(OutputInterface $output, CollectionInterface $brand): void
     {
-        $template = '<fg=blue>%s</> <fg=yellow>%s</> <fg=red>%s</> <fg=green>%s</> <bg=blue>%s</>';
-
-        foreach($brand->get('models') as $model) {
-            foreach($model->get('versions') as $version) {
+        $table = new Table($output);
+        foreach ($brand->get('models') as $model) {
+            foreach ($model->get('versions') as $version) {
                 $vehicle = $this->manager->createVehicle($brand, $model, $version);
-                //$this->manager->persist($vehicle);
 
-                $data = [
-                    $vehicle->getManufacturer(),
+                if (1900 > $vehicle->getModelYear() || 2100 < $vehicle->getModelYear()) {
+                    $output->writeln(sprintf('Parse failed:<error>%s</error>', $vehicle->getFullName()), OutputInterface::VERBOSITY_VERBOSE);
+
+                    continue;
+                }
+
+                $this->collection->add($vehicle);
+
+                //$this->manager->persist($vehicle);
+                $rows[] = [
+                    $vehicle->getId(),
+                    $vehicle->getFamily(),
                     $vehicle->getName(),
                     $vehicle->getModelYear(),
                     $vehicle->getFuelType(),
                     $vehicle->getModelIdentifier(),
                 ];
-                $output->writeln("\r\t".sprintf($template, ...$data));
             }
         }
+
+        $table
+            ->setHeaderTitle($vehicle->getManufacturer())
+            ->setFooterTitle($vehicle->getManufacturer())
+            ->setHeaders(['Id', 'Family', 'Name', 'Year', 'Fuel', 'Model Id'])
+            ->setColumnWidths([8, 5, 60, 5, 8, 5])
+            ->setRows($rows)
+        ;
+        $table->render();
+        $output->writeln([
+            '',
+            '',
+            '',
+        ]);
     }
 }

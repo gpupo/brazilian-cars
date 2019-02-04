@@ -69,3 +69,17 @@ $service = Factory::getInstance()->getClient();
 
 
 ```
+
+
+## Conceito da estrutura de dados
+
+
+### Tabela de Referência
+
+Mensalmente é emitida uma lista, com número incremental
+
+### Tipo de veículo
+
+1 = carros
+2 = motos
+3 = caminhões
