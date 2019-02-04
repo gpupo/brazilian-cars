@@ -15,7 +15,7 @@ declare(strict_types=1);
  *
  */
 
-use Symfony\Component\Dotenv\Dotenv;
+use Doctrine\ORM\EntityManager;
 
 if (!class_exists('\Gpupo\Common\Console\Application')) {
     require __DIR__.'/../vendor/autoload.php';
@@ -30,4 +30,51 @@ if (!class_exists(Dotenv::class)) {
 
 if (!defined('ENDPOINT_DOMAIN')) {
     define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
+}
+
+use Doctrine\ORM\Tools\Setup;
+use Gpupo\CommonSchema\Normalizers\DoctrineTypesNormalizer;
+use Symfony\Component\Dotenv\Dotenv;
+
+function app_doctrine_connection(): EntityManager
+{
+    DoctrineTypesNormalizer::overrideTypes();
+    $evm = new \Doctrine\Common\EventManager();
+    $cache = new \Doctrine\Common\Cache\ArrayCache();
+    $annotationReader = new \Doctrine\Common\Annotations\AnnotationReader();
+    $cachedAnnotationReader = new \Doctrine\Common\Annotations\CachedReader($annotationReader, $cache);
+    $driverChain = new \Doctrine\ORM\Mapping\Driver\DriverChain();
+    \Gedmo\DoctrineExtensions::registerAbstractMappingIntoDriverChainORM($driverChain, $cachedAnnotationReader);
+    $annotationDriver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($cachedAnnotationReader, [__DIR__.'/../src']);
+    $driverChain->addDriver($annotationDriver, 'Entity');
+    // general ORM configuration
+    $config = new \Doctrine\ORM\Configuration();
+    $config->setProxyDir(sys_get_temp_dir());
+    $config->setProxyNamespace('Proxy');
+    $config->setAutoGenerateProxyClasses(false); // this can be based on production config.
+    // register metadata driver
+    $config->setMetadataDriverImpl($driverChain);
+    // use our already initialized cache driver
+    $config->setMetadataCacheImpl($cache);
+    $config->setQueryCacheImpl($cache);
+    // loggable, not used in example
+    // $loggableListener = new \Gedmo\Loggable\LoggableListener();
+    // $loggableListener->setAnnotationReader($cachedAnnotationReader);
+    // $evm->addEventSubscriber($loggableListener);
+
+    // timestampable
+    $timestampableListener = new \Gedmo\Timestampable\TimestampableListener();
+    $timestampableListener->setAnnotationReader($cachedAnnotationReader);
+    $evm->addEventSubscriber($timestampableListener);
+    $config = Setup::createAnnotationMetadataConfiguration([__DIR__.'/../src/Entity/'], true, null, null, false);
+
+    $connectionParams = [
+        'dbname' => 'app',
+        'user' => 'app_db_user',
+        'password' => 'app8as3',
+        'host' => getenv('dbhost'),
+        'driver' => 'pdo_mysql',
+    ];
+
+    return EntityManager::create($connectionParams, $config, $evm);
 }

@@ -70,16 +70,17 @@ $service = Factory::getInstance()->getClient();
 
 ```
 
+## Console
 
-## Conceito da estrutura de dados
+	bin/brazilian-cars
 
 
-### Tabela de Referência
+Lista de todos dos veículos:
 
-Mensalmente é emitida uma lista, com número incremental
+	bin/brazilian-cars vehicle:process Resources/data/current/models.php-serialized.ser
 
-### Tipo de veículo
+## Desenvolvimento
 
-1 = carros
-2 = motos
-3 = caminhões
+Criação do banco de dados
+
+	./vendor/bin/doctrine   orm:schema-tool:create

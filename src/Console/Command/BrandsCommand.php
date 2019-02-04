@@ -25,7 +25,7 @@ final class BrandsCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('brands')
+            ->setName('vehicle:brands')
             ->setDescription('Lista de marcas comercializadas');
 
         parent::configure();

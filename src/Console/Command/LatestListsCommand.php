@@ -25,7 +25,7 @@ final class LatestListsCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('lists')
+            ->setName('vehicle:lists')
             ->setDescription('Tabelas de referência mais recentemente disponibilizadas');
 
         parent::configure();

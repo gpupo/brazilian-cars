@@ -17,8 +17,10 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Entity;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gpupo\Common\Entity\AbstractORMEntity;
 
 /**
  * Vehicle Entity.
@@ -27,8 +29,31 @@ use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
  * @ORM\Table(name="bc_vehicle")
  * @ORM\Entity(repositoryClass="Gpupo\BrazilianCars\Entity\VehicleRepository")
  */
-class Vehicle extends AbstractEntity
+class Vehicle extends AbstractORMEntity
 {
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
+     * @var DateTime (Record update timestamp)
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    protected $updated_at;
+
+    /**
+     * @var DateTime
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Gedmo\Versioned
+     */
+    protected $deleted_at;
+
     /**
      * @var string
      *
@@ -46,7 +71,7 @@ class Vehicle extends AbstractEntity
     /**
      * @var string
      *
-     * @ORM\Column(name="family", type="string", nullable=false, unique=true)
+     * @ORM\Column(name="family", type="string", nullable=false, unique=false)
      */
     protected $family;
 
@@ -60,7 +85,7 @@ class Vehicle extends AbstractEntity
     /**
      * @var int
      *
-     * @ORM\Column(name="manufacturer_id", type="int", nullable=false, unique=false)
+     * @ORM\Column(name="manufacturer_id", type="integer", nullable=false, unique=false)
      */
     protected $manufacturer_id;
 
@@ -84,6 +109,47 @@ class Vehicle extends AbstractEntity
      * @ORM\Column(name="fuel_type", type="string", nullable=true, unique=false)
      */
     protected $fuel_type;
+
+    /**
+     * Sets deleted_at.
+     *
+     * @param DateTime $deleted_at
+     */
+    public function setDeleatedAt(?DateTime $deleted_at = null): void
+    {
+        $this->dele = $deleted_at;
+    }
+
+    /**
+     * Sets updated_at.
+     *
+     * @param DateTime $updated_at
+     */
+    public function setUpdatedAt(?DateTime $updated_at = null): void
+    {
+        $this->updated_at = $updated_at;
+    }
+
+    /**
+     * Is deleted?
+     *
+     * @return bool
+     */
+    public function isDeleted(): bool
+    {
+        return null !== $this->deleted_at;
+    }
+
+    public function setId($id)
+    {
+        return $this->id = $id;
+    }
+
+    public function getSchema(): array
+    {
+        return [
+        ];
+    }
 
     /**
      * Get id.
@@ -118,7 +184,7 @@ class Vehicle extends AbstractEntity
     }
 
     /**
-     * Get contactened nama.
+     * Get contactened name.
      *
      * @return null|string
      */
