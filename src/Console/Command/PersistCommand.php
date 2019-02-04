@@ -23,6 +23,7 @@ use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use DateTime;
 
 final class PersistCommand extends AbstractCommand
 {
@@ -46,19 +47,32 @@ final class PersistCommand extends AbstractCommand
         $entityManager = app_doctrine_connection();
         $repository = $entityManager->getRepository(Vehicle::class);
 
+        $i = 0;
+        $max = 1000;
+        $result = [
+            'inserted' => 0,
+            'updated' => 0,
+        ];
         foreach ($collection as $vehicle) {
-            $existent = $repository->findById($vehicle->getId());
-
-            if ($existent) {
+            $existent = $repository->findOneByObject($vehicle);
+            if (empty($existent)) {
+                ++$result['inserted'];
                 $entityManager->merge($vehicle);
             } else {
-                $entityManager->persist($vehicle);
+                ++$result['updated'];
+                $existent->setUpdatedAt(new DateTime());
+                $entityManager->persist($existent);
+            }
+
+            ++$i;
+            if($max === $i){
+                $i=0;
+                $entityManager->flush();
             }
         }
 
         $entityManager->flush();
-
-        // $output->writeln(sprintf('Filename <info>%s</> loaded, <info>%s</> Vehicles', $filename, $this->collection->count()), OutputInterface::VERBOSITY_VERBOSE);
+        $output->writeln(sprintf('Inserted <info>%d</> new vehicles and <info>%d</> updates',..$result));
     }
 
     private function reloadCollection(InputInterface $input): CollectionInterface

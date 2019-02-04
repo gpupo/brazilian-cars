@@ -4,6 +4,8 @@ services:
         image: gpupo/container-orchestration:symfony-dev-${TAG_VERSION}
         volumes:
             - $PWD/:/var/www/app
+        networks:
+            - backend
     mariadb:
         image: mariadb
         restart: always
@@ -14,3 +16,25 @@ services:
           MYSQL_USER: app_db_user
           MYSQL_PASSWORD: app8as3
           MYSQL_DATABASE: app
+        networks:
+          - backend
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        links:
+          - mariadb
+        expose:
+          - 80
+        restart: always
+        env_file:
+            - config/phpmyadmin.env
+        networks:
+            - backend
+            - default
+networks:
+    default:
+        external:
+            name: nginx-proxy
+    backend:
+        external:
+            name: localhost-backend
