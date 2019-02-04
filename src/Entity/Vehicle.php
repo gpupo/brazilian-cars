@@ -17,11 +17,12 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Entity;
 
-use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
 
 /**
  * Vehicle Entity.
+ *
  * @see https://schema.org/Vehicle
  * @ORM\Table(name="bc_vehicle")
  * @ORM\Entity(repositoryClass="Gpupo\BrazilianCars\Entity\VehicleRepository")
@@ -36,32 +37,38 @@ class Vehicle extends AbstractEntity
     protected $name;
 
     /**
-    * @var string
-    *
-    * @ORM\Column(name="code", type="string", nullable=false, unique=true)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="code", type="string", nullable=false, unique=true)
+     */
     protected $code;
 
     /**
-    * @var null|string
-    *
-    * @ORM\Column(name="manufacturer", type="string", nullable=false, unique=false)
-    */
+     * @var string
+     *
+     * @ORM\Column(name="family", type="string", nullable=false, unique=true)
+     */
+    protected $family;
+
+    /**
+     * @var null|string
+     *
+     * @ORM\Column(name="manufacturer", type="string", nullable=false, unique=false)
+     */
     protected $manufacturer;
 
     /**
-    * @var int
-    *
-    * @ORM\Column(name="manufacturer_id", type="int", nullable=false, unique=false)
-    */
+     * @var int
+     *
+     * @ORM\Column(name="manufacturer_id", type="int", nullable=false, unique=false)
+     */
     protected $manufacturer_id;
 
-
     /**
-    * @var int
-    *
-    * @ORM\Column(name="model_year", type="integer", nullable=false, unique=false)
-    */
+     * @var int
+     *
+     * @ORM\Column(name="model_year", type="integer", nullable=false, unique=false)
+     */
     protected $model_year;
 
     /**
@@ -110,7 +117,6 @@ class Vehicle extends AbstractEntity
         return $this->name;
     }
 
-
     /**
      * Get contactened nama.
      *
@@ -118,7 +124,6 @@ class Vehicle extends AbstractEntity
      */
     public function getFullName()
     {
-        return sprintf('%s %s', $this->getManufacturer(), $this->getName());
+        return sprintf('%s %s %s %s', $this->getManufacturer(), $this->getName(), $this->getModelYear(), $this->getFuelType());
     }
-
 }

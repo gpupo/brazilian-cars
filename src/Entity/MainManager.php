@@ -17,9 +17,8 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Entity;
 
-use Gpupo\CommonSdk\Entity\GenericManager;
 use Gpupo\Common\Entity\CollectionInterface;
-use Gpupo\Common\Entity\Collection;
+use Gpupo\CommonSdk\Entity\GenericManager;
 
 class MainManager extends GenericManager
 {
@@ -49,24 +48,13 @@ class MainManager extends GenericManager
         return $this->currentListId;
     }
 
-    protected function normalizeBrand(array $item): array
-    {
-        $item['id'] = (int) $item['Value'];
-        $item['name'] = $item['Label'];
-        unset($item['Value']);
-        unset($item['Label']);
-        $item['type'] = [];
-
-        return $item;
-    }
-
     public function getBrands(bool $renew = false): CollectionInterface
     {
         $list = [];
 
-        foreach($this->types as $type_id => $type_name) {
+        foreach ($this->types as $type_id => $type_name) {
             $collection = $this->getBrandsWithType($type_id, $renew);
-            foreach($collection as $item) {
+            foreach ($collection as $item) {
                 $item = $this->normalizeBrand($item);
                 $key = $item['name'];
 
@@ -74,7 +62,7 @@ class MainManager extends GenericManager
                     $list[$key] = $item;
                 }
 
-                $list[$key]['type'][] = ['id' => (int) $type_id, 'name'=> $type_name];
+                $list[$key]['type'][] = ['id' => (int) $type_id, 'name' => $type_name];
             }
         }
 
@@ -83,11 +71,22 @@ class MainManager extends GenericManager
         return $this->factoryCollection($list);
     }
 
+    protected function normalizeBrand(array $item): array
+    {
+        $item['id'] = (int) $item['Value'];
+        $item['name'] = $item['Label'];
+        unset($item['Value'], $item['Label']);
+
+        $item['type'] = [];
+
+        return $item;
+    }
+
     protected function getBrandsWithType(int $type = 1, bool $renew = false): CollectionInterface
     {
         $body = [
-        	'codigoTabelaReferencia'=> $this->getCurrentListId(),
-        	'codigoTipoVeiculo'=> $type,
+            'codigoTabelaReferencia' => $this->getCurrentListId(),
+            'codigoTipoVeiculo' => $type,
         ];
 
         return $this->requestWithCache([

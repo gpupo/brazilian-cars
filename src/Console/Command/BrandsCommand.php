@@ -19,7 +19,6 @@ namespace Gpupo\BrazilianCars\Console\Command;
 
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use Symfony\Component\Console\Input\InputOption;
 
 final class BrandsCommand extends AbstractCommand
 {

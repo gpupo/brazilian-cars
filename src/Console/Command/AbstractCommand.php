@@ -19,8 +19,6 @@ namespace Gpupo\BrazilianCars\Console\Command;
 
 use Gpupo\Common\Traits\TableTrait;
 use Gpupo\CommonSdk\Console\Command\AbstractCommand as Core;
-use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
 
 abstract class AbstractCommand extends Core
