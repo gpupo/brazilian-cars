@@ -46,7 +46,6 @@ final class VehicleCommand extends AbstractCommand
         $filename = $input->getArgument('filename');
         $this->manager = $this->getFactory()->factoryManager('vehicle');
         $collection = $this->resourceDecodeSerializedFile($filename);
-        $output->writeln(sprintf('Filename <info>%d</> loaded', $filename));
 
         foreach($collection as $brand) {
             $filter = $input->getOption('filter');
@@ -59,6 +58,7 @@ final class VehicleCommand extends AbstractCommand
             $this->unitBrand($output, $brand);
         }
 
+        $output->writeln(sprintf('Filename <info>%s</> loaded', $filename));
         $output->writeln('<info>Done</>');
     }
 
@@ -70,6 +70,8 @@ final class VehicleCommand extends AbstractCommand
         foreach($brand->get('models') as $model) {
             foreach($model->get('versions') as $version) {
                 $vehicle = $this->manager->createVehicle($brand, $model, $version);
+                //$this->manager->persist($vehicle);
+
                 $data = [
                     $vehicle->getManufacturer(),
                     $vehicle->getName(),
