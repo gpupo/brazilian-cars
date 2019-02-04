@@ -21,4 +21,5 @@ use Gpupo\CommonSchema\ORM\EntityRepository\AbstractEntityRepository;
 
 class VehicleRepository extends AbstractEntityRepository
 {
+
 }

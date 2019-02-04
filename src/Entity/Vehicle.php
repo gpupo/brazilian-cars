@@ -21,6 +21,8 @@ use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gpupo\Common\Entity\AbstractORMEntity;
+use Gpupo\CommonSchema\ORM\Entity\EntityInterface;
+use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
 
 /**
  * Vehicle Entity.
@@ -29,30 +31,16 @@ use Gpupo\Common\Entity\AbstractORMEntity;
  * @ORM\Table(name="bc_vehicle")
  * @ORM\Entity(repositoryClass="Gpupo\BrazilianCars\Entity\VehicleRepository")
  */
-class Vehicle extends AbstractORMEntity
+class Vehicle extends AbstractEntity implements EntityInterface
 {
     /**
      * @var int
      *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue(strategy="NONE")
      */
     protected $id;
-
-    /**
-     * @var DateTime (Record update timestamp)
-     * @Gedmo\Timestampable(on="update")
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    protected $updated_at;
-
-    /**
-     * @var DateTime
-     * @ORM\Column(type="datetime", nullable=true)
-     * @Gedmo\Versioned
-     */
-    protected $deleted_at;
 
     /**
      * @var string
@@ -111,47 +99,6 @@ class Vehicle extends AbstractORMEntity
     protected $fuel_type;
 
     /**
-     * Sets deleted_at.
-     *
-     * @param DateTime $deleted_at
-     */
-    public function setDeleatedAt(?DateTime $deleted_at = null): void
-    {
-        $this->dele = $deleted_at;
-    }
-
-    /**
-     * Sets updated_at.
-     *
-     * @param DateTime $updated_at
-     */
-    public function setUpdatedAt(?DateTime $updated_at = null): void
-    {
-        $this->updated_at = $updated_at;
-    }
-
-    /**
-     * Is deleted?
-     *
-     * @return bool
-     */
-    public function isDeleted(): bool
-    {
-        return null !== $this->deleted_at;
-    }
-
-    public function setId($id)
-    {
-        return $this->id = $id;
-    }
-
-    public function getSchema(): array
-    {
-        return [
-        ];
-    }
-
-    /**
      * Get id.
      *
      * @return int
@@ -159,28 +106,6 @@ class Vehicle extends AbstractORMEntity
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set name.
-     *
-     * @param null|string $name
-     */
-    public function setName($name = null)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name.
-     *
-     * @return null|string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

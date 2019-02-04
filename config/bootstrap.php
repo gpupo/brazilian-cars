@@ -16,6 +16,9 @@ declare(strict_types=1);
  */
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Tools\Setup;
+use Gpupo\CommonSchema\Normalizers\DoctrineTypesNormalizer;
+use Symfony\Component\Dotenv\Dotenv;
 
 if (!class_exists('\Gpupo\Common\Console\Application')) {
     require __DIR__.'/../vendor/autoload.php';
@@ -31,10 +34,6 @@ if (!class_exists(Dotenv::class)) {
 if (!defined('ENDPOINT_DOMAIN')) {
     define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
 }
-
-use Doctrine\ORM\Tools\Setup;
-use Gpupo\CommonSchema\Normalizers\DoctrineTypesNormalizer;
-use Symfony\Component\Dotenv\Dotenv;
 
 function app_doctrine_connection(): EntityManager
 {
