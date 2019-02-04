@@ -17,6 +17,7 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Tests;
 
+use Gpupo\BrazilianCars\Entity\Vehicle;
 use Gpupo\BrazilianCars\Factory;
 use Gpupo\CommonSdk\Client\ClientInterface;
 use Gpupo\CommonSdk\Tests\FactoryTestAbstract;
@@ -55,5 +56,8 @@ class FactoryTest extends FactoryTestAbstract
 
     public function dataProviderObjetos()
     {
+        return [
+           [Vehicle::class, 'vehicle'],
+       ];
     }
 }

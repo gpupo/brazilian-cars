@@ -17,13 +17,13 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use DateTime;
 use Gpupo\BrazilianCars\Entity\Vehicle;
 use Gpupo\Common\Entity\CollectionInterface;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
-use DateTime;
 
 final class PersistCommand extends AbstractCommand
 {
@@ -33,7 +33,7 @@ final class PersistCommand extends AbstractCommand
     {
         $this
             ->setName('vehicle:persist')
-            ->setDescription('Persiste os modelos no banco de dados')
+            ->setDescription('Persiste a coleção de Vehicle no banco de dados')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
             ;
 
@@ -65,14 +65,14 @@ final class PersistCommand extends AbstractCommand
             }
 
             ++$i;
-            if($max === $i){
-                $i=0;
+            if ($max === $i) {
+                $i = 0;
                 $entityManager->flush();
             }
         }
 
         $entityManager->flush();
-        $output->writeln(sprintf('Inserted <info>%d</> new vehicles and <info>%d</> updates',..$result));
+        $output->writeln(sprintf('Inserted <info>%d</> new vehicles and <info>%d</> updates', ...array_values($result)));
     }
 
     private function reloadCollection(InputInterface $input): CollectionInterface

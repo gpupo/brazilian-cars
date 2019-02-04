@@ -32,7 +32,7 @@ final class ModelsCommand extends AbstractCommand
     {
         $this
             ->setName('vehicle:models')
-            ->setDescription('Modelos comercializados')
+            ->setDescription('Atualiza o cache dos modelos comercializados no Brasil')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
             ;
 

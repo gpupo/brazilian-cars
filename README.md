@@ -81,6 +81,30 @@ Lista de todos dos veículos:
 
 ## Desenvolvimento
 
-Criação do banco de dados
+Cria o banco de dados
 
 	./vendor/bin/doctrine   orm:schema-tool:create
+
+ou recria:
+
+	./vendor/bin/doctrine   orm:schema-tool:drop --force && ./vendor/bin/doctrine   orm:schema-tool:create
+
+Atualiza/exibe a de marcas comercializadas
+
+	 bin/brazilian-cars vehicle:brands
+
+ Carrega a tabelas de referência mais recente
+
+	 bin/brazilian-cars vehicle:lists
+
+ Atualiza o cache dos modelos comercializados no Brasil
+
+	 bin/brazilian-cars vehicle:models  Resources/data/current/models.php-serialized.ser
+
+Processa os modelos, gerando uma coleção de Vehicle para persistência em banco de dados
+
+	 bin/brazilian-cars vehicle:build Resources/data/current/models.php-serialized.ser
+
+ Persiste a coleção de Vehicle no banco de dados
+
+ 	bin/brazilian-cars vehicle:persist var/data/vechicleCollection.php-serialized.ser
