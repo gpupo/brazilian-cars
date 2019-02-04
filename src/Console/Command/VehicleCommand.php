@@ -65,12 +65,19 @@ final class VehicleCommand extends AbstractCommand
 
     protected function unitBrand(OutputInterface $output, CollectionInterface $brand): void
     {
-        // $output->writeln(sprintf('* %s <fg=blue>%s</>', ...array_values($brand->toArray())));
+        $template = '<fg=blue>%s</> <fg=yellow>%s</> <fg=red>%s</> <fg=green>%s</> <bg=blue>%s</>';
+
         foreach($brand->get('models') as $model) {
-//            $output->writeln("\r\t".sprintf('%s) <info>%s</>', ...array_values($model->toArray())));
             foreach($model->get('versions') as $version) {
                 $vehicle = $this->manager->createVehicle($brand, $model, $version);
-                $output->writeln("\r\t".sprintf(' <fg=blue>%s</> <fg=yellow>%s</> <fg=red>%s</> <fg=green>%s</> <bg=blue>%s</>', $vehicle->getManufacturer(), $vehicle->getName(), $vehicle->getModelYear(), $vehicle->getFuelType(), $vehicle->getModelIdentifier()));
+                $data = [
+                    $vehicle->getManufacturer(),
+                    $vehicle->getName(),
+                    $vehicle->getModelYear(),
+                    $vehicle->getFuelType(),
+                    $vehicle->getModelIdentifier(),
+                ];
+                $output->writeln("\r\t".sprintf($template, ...$data));
             }
         }
     }
