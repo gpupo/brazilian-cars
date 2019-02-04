@@ -43,6 +43,6 @@ abstract class AbstractCommand extends Core
                 InputOption::VALUE_OPTIONAL,
                 'Name to filter',
                 false
-            )    ;
+            );
     }
 }

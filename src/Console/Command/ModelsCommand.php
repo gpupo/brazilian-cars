@@ -20,6 +20,7 @@ namespace Gpupo\BrazilianCars\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Gpupo\Common\Entity\CollectionInterface;
 
@@ -33,25 +34,22 @@ final class ModelsCommand extends AbstractCommand
     {
         $this
             ->setName('models')
-            ->setDescription('Modelos comercializados');
+            ->setDescription('Modelos comercializados')
+            ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
+            ;
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $filename = $input->getArgument('filename');
         $this->manager = $this->getFactory()->factoryManager('vehicle');
         $collection = $this->manager->getModels($renew = (null === $input->getOption('no-cache')));
-        $this->saveResourceToYamlFile('var/data/models.yaml', $collection->toArray());
         $detailedModels = $this->manager->detailedModels($collection);
-        $this->saveResourceToYamlFile('var/data/detailedModels.yaml', $detailedModels->toArray());
-
-        $ser = serialize($detailedModels);
-        $file = fopen('var/data/detailedModels.ser', 'wb');
-        fwrite($file, $ser);
-
+        $this->saveResourceToSerializedFile($filename, $detailedModels);
         $this->displayTableResults($output, $collection);
-
+        $output->writeln(sprintf('Filename <info>%d</> saved', $filename));
         $output->writeln('<info>Done</>');
     }
 }
