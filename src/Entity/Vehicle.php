@@ -29,14 +29,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Vehicle extends AbstractEntity
 {
     /**
-     * @var null|string
+     * @var string
      *
-     * @ORM\Column(name="name", type="string", nullable=true, unique=false)
+     * @ORM\Column(name="name", type="string", nullable=false, unique=false)
      */
     protected $name;
 
     /**
-    * @var null|string
+    * @var string
     *
     * @ORM\Column(name="code", type="string", nullable=false, unique=true)
     */
@@ -50,7 +50,7 @@ class Vehicle extends AbstractEntity
     protected $manufacturer;
 
     /**
-    * @var null|int
+    * @var int
     *
     * @ORM\Column(name="manufacturer_id", type="int", nullable=false, unique=false)
     */
@@ -58,7 +58,7 @@ class Vehicle extends AbstractEntity
 
 
     /**
-    * @var null|int
+    * @var int
     *
     * @ORM\Column(name="model_year", type="integer", nullable=false, unique=false)
     */
@@ -92,8 +92,6 @@ class Vehicle extends AbstractEntity
      * Set name.
      *
      * @param null|string $name
-     *
-     * @return Provider
      */
     public function setName($name = null)
     {

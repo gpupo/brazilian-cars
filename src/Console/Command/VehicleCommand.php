@@ -20,6 +20,7 @@ namespace Gpupo\BrazilianCars\Console\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputArgument;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Gpupo\Common\Entity\CollectionInterface;
 
@@ -33,15 +34,19 @@ final class VehicleCommand extends AbstractCommand
     {
         $this
             ->setName('vehicle')
-            ->setDescription('Processa os modelos');
+            ->setDescription('Processa os modelos')
+            ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
+            ;
 
         parent::configure();
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $filename = $input->getArgument('filename');
         $this->manager = $this->getFactory()->factoryManager('vehicle');
-        $collection = unserialize(file_get_contents('var/data/detailedModels.ser'));
+        $collection = $this->resourceDecodeSerializedFile($filename);
+        $output->writeln(sprintf('Filename <info>%d</> loaded', $filename));
 
         foreach($collection as $brand) {
             $filter = $input->getOption('filter');
