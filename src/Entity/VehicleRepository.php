@@ -15,8 +15,10 @@ declare(strict_types=1);
  *
  */
 
-use Doctrine\ORM\Tools\Console\ConsoleRunner;
+namespace Gpupo\BrazilianCars\Entity;
 
-require __DIR__.'/bootstrap.php';
+use Gpupo\CommonSchema\ORM\EntityRepository\AbstractEntityRepository;
 
-return ConsoleRunner::createHelperSet(app_doctrine_connection());
+class VehicleRepository extends AbstractEntityRepository
+{
+}

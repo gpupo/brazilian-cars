@@ -36,10 +36,10 @@ final class VehicleCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('vehicle')
+            ->setName('vehicle:process')
             ->setDescription('Processa os modelos')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
-            ->addArgument('output-filename', InputArgument::OPTIONAL, 'A serialized filename path to output vehicle collection', 'var/data/vechicleCollection.php-serialized.ser')
+            ->addArgument('output-filename', InputArgument::OPTIONAL, 'A serialized filename path to output vehicle collection', 'var/data/vehicleCollection.php-serialized.ser')
             ;
 
         parent::configure();

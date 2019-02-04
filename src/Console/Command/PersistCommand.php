@@ -17,22 +17,22 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use Gpupo\BrazilianCars\Entity\Vehicle;
+use Gpupo\Common\Entity\CollectionInterface;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ModelsCommand extends AbstractCommand
+final class PersistCommand extends AbstractCommand
 {
     use ResourcesTrait;
-
-    private $manager;
 
     protected function configure()
     {
         $this
-            ->setName('vehicle:models')
-            ->setDescription('Modelos comercializados')
+            ->setName('vehicle:persist')
+            ->setDescription('Persiste os modelos no banco de dados')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
             ;
 
@@ -42,12 +42,29 @@ final class ModelsCommand extends AbstractCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $filename = $input->getArgument('filename');
-        $this->manager = $this->getFactory()->factoryManager('vehicle');
-        $collection = $this->manager->getModels($renew = (null === $input->getOption('no-cache')));
-        $detailedModels = $this->manager->detailedModels($collection);
-        $this->saveResourceToSerializedFile($filename, $detailedModels);
-        $this->displayTableResults($output, $collection);
-        $output->writeln(sprintf('Filename <info>%d</> saved', $filename));
-        $output->writeln('<info>Done</>');
+        $collection = $this->reloadCollection($input);
+        $entityManager = app_doctrine_connection();
+        $repository = $entityManager->getRepository(Vehicle::class);
+
+        foreach ($collection as $vehicle) {
+            $existent = $repository->findById($vehicle->getId());
+
+            if ($existent) {
+                $entityManager->merge($vehicle);
+            } else {
+                $entityManager->persist($vehicle);
+            }
+        }
+
+        $entityManager->flush();
+
+        // $output->writeln(sprintf('Filename <info>%s</> loaded, <info>%s</> Vehicles', $filename, $this->collection->count()), OutputInterface::VERBOSITY_VERBOSE);
+    }
+
+    private function reloadCollection(InputInterface $input): CollectionInterface
+    {
+        $filename = $input->getArgument('filename');
+
+        return $this->resourceDecodeSerializedFile($filename);
     }
 }
