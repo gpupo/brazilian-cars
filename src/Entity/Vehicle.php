@@ -17,12 +17,9 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Entity;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Gpupo\Common\Entity\AbstractORMEntity;
-use Gpupo\CommonSchema\ORM\Entity\EntityInterface;
 use Gpupo\CommonSchema\ORM\Entity\AbstractEntity;
+use Gpupo\CommonSchema\ORM\Entity\EntityInterface;
 
 /**
  * Vehicle Entity.

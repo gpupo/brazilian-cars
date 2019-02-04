@@ -64,7 +64,7 @@ class VehicleManager extends MainManager
         $vehicle->setFuelType((string) end($explodedName));
         $vehicle->setCode(sprintf('%s/%s/%s', $brand['id'], $model['id'], $version['id']));
         $vehicle->setModelIdentifier($model['id']);
-        $vehicle->setManufacturer(strtoupper($brand['name']));
+        $vehicle->setManufacturer(mb_strtoupper($brand['name']));
         $vehicle->setManufacturerId($brand['id']);
 
         return $vehicle;

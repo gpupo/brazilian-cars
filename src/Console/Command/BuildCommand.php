@@ -25,7 +25,7 @@ use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class VehicleCommand extends AbstractCommand
+final class BuildCommand extends AbstractCommand
 {
     use ResourcesTrait;
 
@@ -36,8 +36,8 @@ final class VehicleCommand extends AbstractCommand
     protected function configure()
     {
         $this
-            ->setName('vehicle:process')
-            ->setDescription('Processa os modelos')
+            ->setName('vehicle:build')
+            ->setDescription('Processa os modelos, gerando uma coleção de Vehicle para persistência em banco de dados')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
             ->addArgument('output-filename', InputArgument::OPTIONAL, 'A serialized filename path to output vehicle collection', 'var/data/vehicleCollection.php-serialized.ser')
             ;
