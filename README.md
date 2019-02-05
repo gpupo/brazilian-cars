@@ -101,10 +101,6 @@ Atualiza/exibe a de marcas comercializadas
 
 	 bin/brazilian-cars vehicle:models  Resources/data/current/models.php-serialized.ser
 
-Processa os modelos, gerando uma coleção de Vehicle para persistência em banco de dados
+Processa os modelos, gerando uma coleção de Vehicle e persiste em banco de dados
 
 	 bin/brazilian-cars vehicle:build Resources/data/current/models.php-serialized.ser
-
- Persiste a coleção de Vehicle no banco de dados
-
- 	bin/brazilian-cars vehicle:persist var/data/vechicleCollection.php-serialized.ser

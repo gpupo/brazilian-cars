@@ -53,7 +53,7 @@ class VehicleManager extends MainManager
     private function validateKeyValueLen($data, string $key, int $min, string $text)
     {
         if (!array_key_exists($key, $data) || $min > strlen((string) $data[$key])) {
-            throw new \InvalidArgumentException($text);
+            throw new \InvalidArgumentException(sprintf('%s [%s]', $text, $data[$key]));
         }
     }
 
@@ -61,7 +61,7 @@ class VehicleManager extends MainManager
     {
         $vehicle = new Vehicle();
 
-        $this->validateKeyValueLen($model->toArray(), 'name', 5, 'Invalid model name');
+        $this->validateKeyValueLen($model->toArray(), 'name', 3, 'Invalid model name');
         $this->validateKeyValueLen((array) $version, 'id', 3, 'Invalid version id');
         $this->validateKeyValueLen((array) $version, 'name', 3, 'Invalid version name');
 
@@ -75,7 +75,7 @@ class VehicleManager extends MainManager
         $vehicle->setFuelType((string) end($explodedName));
         $vehicle->setCode(sprintf('%s/%s/%s', $brand['id'], $model['id'], $version['id']));
         $vehicle->setModelIdentifier($model['id']);
-        $vehicle->setManufacturer(mb_strtoupper($brand['name']));
+        $vehicle->setManufacturer($brand['name']);
         $vehicle->setManufacturerId($brand['id']);
 
         return $vehicle;
