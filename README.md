@@ -75,11 +75,12 @@ $service = Factory::getInstance()->getClient();
 	bin/brazilian-cars
 
 
+## Desenvolvimento
+
 Lista de todos dos veículos:
 
 	bin/brazilian-cars vehicle:process Resources/data/current/models.php-serialized.ser
 
-## Desenvolvimento
 
 Cria o banco de dados
 
@@ -104,3 +105,7 @@ Atualiza/exibe a de marcas comercializadas
 Processa os modelos, gerando uma coleção de Vehicle e persiste em banco de dados
 
 	 bin/brazilian-cars vehicle:build Resources/data/current/models.php-serialized.ser
+
+Recriar o SQL com as Tabelas
+
+	mysqldump -uapp_db_user -papp8as3 -h mariadb app bc_vehicle  >  Resources/data/current/bc_vehicle.sql
