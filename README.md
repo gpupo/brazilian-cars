@@ -116,6 +116,7 @@ Processa os modelos, gerando uma coleção de Vehicle e persiste em banco de dad
 
 	 bin/brazilian-cars vehicle:build Resources/data/current/models.php-serialized.ser
 
-Recriar o SQL com as Tabelas
+Recriar os arquivos SQL
 
-	mysqldump -uapp_db_user -papp8as3 -h mariadb app bc_vehicle  >  Resources/data/current/bc_vehicle.sql
+	mysqldump -u app_db_user -papp8as3 -h mariadb app bc_vehicle  >  Resources/data/current/bc_vehicle.sql;
+	mysql -u app_db_user -papp8as3 -h mariadb INFORMATION_SCHEMA --skip-column-names --batch -e "select table_name from tables where table_type = 'VIEW' and table_schema = 'app'" | xargs mysqldump -u app_db_user -papp8as3 -h mariadb app > views.sql
