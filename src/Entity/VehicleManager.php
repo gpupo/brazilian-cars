@@ -50,13 +50,6 @@ class VehicleManager extends MainManager
         return $list;
     }
 
-    private function validateKeyValueLen($data, string $key, int $min, string $text)
-    {
-        if (!array_key_exists($key, $data) || $min > strlen((string) $data[$key])) {
-            throw new \InvalidArgumentException(sprintf('%s [%s]', $text, $data[$key]));
-        }
-    }
-
     public function createVehicle(CollectionInterface $brand, CollectionInterface $model, $version): Vehicle
     {
         $vehicle = new Vehicle();
@@ -152,5 +145,12 @@ class VehicleManager extends MainManager
         ], $body, $body, $renew, $lambda);
 
         return $data;
+    }
+
+    private function validateKeyValueLen($data, string $key, int $min, string $text)
+    {
+        if (!array_key_exists($key, $data) || $min > \strlen((string) $data[$key])) {
+            throw new \InvalidArgumentException(sprintf('%s [%s]', $text, $data[$key]));
+        }
     }
 }

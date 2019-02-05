@@ -17,11 +17,11 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use Gpupo\Common\Entity\CollectionInterface;
 use Gpupo\Common\Traits\TableTrait;
 use Gpupo\CommonSdk\Console\Command\AbstractCommand as Core;
-use Symfony\Component\Console\Input\InputOption;
 use Gpupo\CommonSdk\Traits\ResourcesTrait;
-use Gpupo\Common\Entity\CollectionInterface;
+use Symfony\Component\Console\Input\InputOption;
 
 abstract class AbstractCommand extends Core
 {
