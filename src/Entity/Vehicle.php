@@ -25,7 +25,7 @@ use Gpupo\CommonSchema\ORM\Entity\EntityInterface;
  * Vehicle Entity.
  *
  * @see https://schema.org/Vehicle
- * @ORM\Table(name="bc_vehicle")
+ * @ORM\Table(name="bc_vehicle", options={"collate"="utf8mb4_unicode_ci"})
  * @ORM\Entity(repositoryClass="Gpupo\BrazilianCars\Entity\VehicleRepository")
  */
 class Vehicle extends AbstractEntity implements EntityInterface

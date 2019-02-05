@@ -24,6 +24,9 @@ use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Input\InputOption;
+use DateTime;
+use Gpupo\BrazilianCars\Entity\Vehicle;
 
 final class BuildCommand extends AbstractCommand
 {
@@ -38,6 +41,13 @@ final class BuildCommand extends AbstractCommand
             ->setDescription('Processa os modelos, gerando uma coleção de Vehicle para persistência em banco de dados')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
             ->addArgument('output-filename', InputArgument::OPTIONAL, 'A serialized filename path to output vehicle collection', 'var/data/vehicleCollection.php-serialized.ser')
+            ->addOption(
+                'skip-updates',
+                null,
+                InputOption::VALUE_OPTIONAL,
+                'Should ignore updates?',
+                false
+            )
             ;
 
         parent::configure();
@@ -51,9 +61,10 @@ final class BuildCommand extends AbstractCommand
         $collection = $this->resourceDecodeSerializedFile($filename);
 
         foreach ($collection as $brand) {
+            $brand->set('name', mb_strtoupper($brand->get('name'))); //Uppercase
             $filter = $input->getOption('filter');
             if (!empty($filter)) {
-                if (strtolower($filter) !== strtolower($brand->get('name'))) {
+                if (false === strpos($brand->get('name'), mb_strtoupper($filter))) {
                     continue;
                 }
             }
@@ -61,6 +72,7 @@ final class BuildCommand extends AbstractCommand
             $this->unitBrand($output, $brand);
         }
 
+        $this->persist($input, $output, $this->collection);
         $output->writeln(sprintf('Filename <info>%s</> loaded, <info>%s</> Vehicles', $filename, $this->collection->count()), OutputInterface::VERBOSITY_VERBOSE);
         $this->saveResourceToSerializedFile($input->getArgument('output-filename'), $this->collection);
     }
@@ -79,10 +91,9 @@ final class BuildCommand extends AbstractCommand
                 }
 
                 $this->collection->add($vehicle);
-
-                //$this->manager->persist($vehicle);
                 $rows[] = [
                     $vehicle->getId(),
+                    $vehicle->getManufacturer(),
                     $vehicle->getFamily(),
                     $vehicle->getName(),
                     $vehicle->getModelYear(),
@@ -91,19 +102,60 @@ final class BuildCommand extends AbstractCommand
                 ];
             }
         }
+        if (!$output->isQuiet()) {
+            $table
+                ->setHeaderTitle($vehicle->getManufacturer())
+                ->setFooterTitle($vehicle->getManufacturer())
+                ->setHeaders(['Id', 'Manufacturer', 'Family', 'Name', 'Year', 'Fuel', 'Model Id'])
+                ->setColumnWidths([8, 5, 60, 5, 8, 5])
+                ->setRows($rows)
+            ;
+            $table->render();
+            $output->writeln([
+                '',
+                '',
+                '',
+            ]);
+        }
+    }
 
-        $table
-            ->setHeaderTitle($vehicle->getManufacturer())
-            ->setFooterTitle($vehicle->getManufacturer())
-            ->setHeaders(['Id', 'Family', 'Name', 'Year', 'Fuel', 'Model Id'])
-            ->setColumnWidths([8, 5, 60, 5, 8, 5])
-            ->setRows($rows)
-        ;
-        $table->render();
-        $output->writeln([
-            '',
-            '',
-            '',
-        ]);
+
+    protected function persist(InputInterface $input, OutputInterface $output, CollectionInterface $collection)
+    {
+        $entityManager = app_doctrine_connection();
+        $repository = $entityManager->getRepository(Vehicle::class);
+
+        $i = 0;
+        $max = 1000;
+        $result = [
+            'inserted' => 0,
+            'updated' => 0,
+        ];
+        foreach ($collection as $vehicle) {
+            $existent = $repository->findOneByObject($vehicle);
+            if (empty($existent)) {
+                ++$result['inserted'];
+                $output->writeln(sprintf('Inserted <bg=blue>%s</> <info>%s</>', $vehicle->getId(), $vehicle->getManufacturer()), OutputInterface::VERBOSITY_VERBOSE);
+                $entityManager->merge($vehicle);
+                ++$i;
+            } else {
+                if (false === $input->getOption('skip-updates')) {
+                    ++$result['updated'];
+                    $existent->setUpdatedAt(new DateTime());
+                    $entityManager->persist($existent);
+                    ++$i;
+                } else {
+                    $output->writeln(sprintf('Skipped <info>%s</>', $vehicle->getId()), OutputInterface::VERBOSITY_VERY_VERBOSE);
+                }
+            }
+
+            if ($max === $i) {
+                $i = 0;
+                $entityManager->flush();
+            }
+        }
+
+        $entityManager->flush();
+        $output->writeln(sprintf('Inserted <info>%d</> new vehicles and <info>%d</> updates', ...array_values($result)), OutputInterface::VERBOSITY_NORMAL);
     }
 }

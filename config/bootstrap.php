@@ -46,6 +46,7 @@ function app_doctrine_connection(): EntityManager
     \Gedmo\DoctrineExtensions::registerAbstractMappingIntoDriverChainORM($driverChain, $cachedAnnotationReader);
     $annotationDriver = new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($cachedAnnotationReader, [__DIR__.'/../src']);
     $driverChain->addDriver($annotationDriver, 'Entity');
+
     // general ORM configuration
     $config = new \Doctrine\ORM\Configuration();
     $config->setProxyDir(sys_get_temp_dir());
@@ -56,10 +57,6 @@ function app_doctrine_connection(): EntityManager
     // use our already initialized cache driver
     $config->setMetadataCacheImpl($cache);
     $config->setQueryCacheImpl($cache);
-    // loggable, not used in example
-    // $loggableListener = new \Gedmo\Loggable\LoggableListener();
-    // $loggableListener->setAnnotationReader($cachedAnnotationReader);
-    // $evm->addEventSubscriber($loggableListener);
 
     // timestampable
     $timestampableListener = new \Gedmo\Timestampable\TimestampableListener();
@@ -73,6 +70,7 @@ function app_doctrine_connection(): EntityManager
         'password' => 'app8as3',
         'host' => getenv('dbhost'),
         'driver' => 'pdo_mysql',
+        'charset'  => 'utf8mb4',
     ];
 
     return EntityManager::create($connectionParams, $config, $evm);
