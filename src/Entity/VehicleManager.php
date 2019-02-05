@@ -50,12 +50,23 @@ class VehicleManager extends MainManager
         return $list;
     }
 
+    private function validateKeyValueLen($data, string $key, int $min, string $text)
+    {
+        if (!array_key_exists($key, $data) || $min > strlen((string) $data[$key])) {
+            throw new \InvalidArgumentException($text);
+        }
+    }
+
     public function createVehicle(CollectionInterface $brand, CollectionInterface $model, $version): Vehicle
     {
         $vehicle = new Vehicle();
-        $name = $model['name'];
-        $family = current(explode(' ', $name));
-        $vehicle->setName($name);
+
+        $this->validateKeyValueLen($model->toArray(), 'name', 5, 'Invalid model name');
+        $this->validateKeyValueLen((array) $version, 'id', 3, 'Invalid version id');
+        $this->validateKeyValueLen((array) $version, 'name', 3, 'Invalid version name');
+
+        $family = current(explode(' ', $model['name']));
+        $vehicle->setName($model['name']);
         $vehicle->setFamily($family);
         $explodedId = explode('-', $version['id']);
         $explodedName = explode(' ', $version['name']);
