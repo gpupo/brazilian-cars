@@ -52,6 +52,16 @@ Proibido:
 
 - Responsabilidade Assegurada
 
+## Uso
+
+Você não necessariamente precisa instalar este pacote.
+
+O acesso à tabela Mysql contendo os carros está em ``Resources/data/current/bc_vehicle.sql``.
+
+Em ``Resources/data/current/`` você encontra outros formatos disponíveis.
+
+Se você usa Doctrine ORM e quer carregar a entity em seu Schema, precisará de ``src/Entity/Vehicle.php``;
+
 ## Instalação
 
 Adicione o pacote ``brazilian-cars`` ao seu projeto utilizando [composer](http://getcomposer.org):
