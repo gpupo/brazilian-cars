@@ -70,7 +70,7 @@ function app_doctrine_connection(): EntityManager
         'password' => 'app8as3',
         'host' => getenv('dbhost'),
         'driver' => 'pdo_mysql',
-        'charset'  => 'utf8mb4',
+        'charset' => 'utf8mb4',
     ];
 
     return EntityManager::create($connectionParams, $config, $evm);

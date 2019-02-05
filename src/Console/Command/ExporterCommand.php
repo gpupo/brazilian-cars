@@ -17,9 +17,6 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
-use DateTime;
-use Gpupo\BrazilianCars\Entity\Vehicle;
-use Gpupo\Common\Entity\CollectionInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;

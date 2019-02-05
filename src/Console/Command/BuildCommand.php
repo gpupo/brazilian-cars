@@ -17,16 +17,15 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
+use DateTime;
+use Gpupo\BrazilianCars\Entity\Vehicle;
 use Gpupo\BrazilianCars\Entity\VehicleCollection;
 use Gpupo\Common\Entity\CollectionInterface;
-use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Symfony\Component\Console\Helper\Table;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputOption;
-use DateTime;
-use Gpupo\BrazilianCars\Entity\Vehicle;
+use Symfony\Component\Console\Output\OutputInterface;
 
 final class BuildCommand extends AbstractCommand
 {
@@ -118,7 +117,6 @@ final class BuildCommand extends AbstractCommand
             ]);
         }
     }
-
 
     protected function persist(InputInterface $input, OutputInterface $output, CollectionInterface $collection)
     {
