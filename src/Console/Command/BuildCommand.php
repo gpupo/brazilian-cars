@@ -27,8 +27,6 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class BuildCommand extends AbstractCommand
 {
-    use ResourcesTrait;
-
     private $manager;
 
     private $collection;

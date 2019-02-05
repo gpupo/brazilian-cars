@@ -20,15 +20,12 @@ namespace Gpupo\BrazilianCars\Console\Command;
 use DateTime;
 use Gpupo\BrazilianCars\Entity\Vehicle;
 use Gpupo\Common\Entity\CollectionInterface;
-use Gpupo\CommonSdk\Traits\ResourcesTrait;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 final class PersistCommand extends AbstractCommand
 {
-    use ResourcesTrait;
-
     protected function configure()
     {
         $this
@@ -42,8 +39,7 @@ final class PersistCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $filename = $input->getArgument('filename');
-        $collection = $this->reloadCollection($input);
+        $collection = $this->reloadCollection($filename);
         $entityManager = app_doctrine_connection();
         $repository = $entityManager->getRepository(Vehicle::class);
 
@@ -73,12 +69,5 @@ final class PersistCommand extends AbstractCommand
 
         $entityManager->flush();
         $output->writeln(sprintf('Inserted <info>%d</> new vehicles and <info>%d</> updates', ...array_values($result)));
-    }
-
-    private function reloadCollection(InputInterface $input): CollectionInterface
-    {
-        $filename = $input->getArgument('filename');
-
-        return $this->resourceDecodeSerializedFile($filename);
     }
 }

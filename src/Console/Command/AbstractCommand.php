@@ -20,10 +20,13 @@ namespace Gpupo\BrazilianCars\Console\Command;
 use Gpupo\Common\Traits\TableTrait;
 use Gpupo\CommonSdk\Console\Command\AbstractCommand as Core;
 use Symfony\Component\Console\Input\InputOption;
+use Gpupo\CommonSdk\Traits\ResourcesTrait;
+use Gpupo\Common\Entity\CollectionInterface;
 
 abstract class AbstractCommand extends Core
 {
     use TableTrait;
+    use ResourcesTrait;
 
     protected function configure()
     {
@@ -42,5 +45,10 @@ abstract class AbstractCommand extends Core
                 'Name to filter',
                 false
             );
+    }
+
+    protected function reloadCollection(string $filename): CollectionInterface
+    {
+        return $this->resourceDecodeSerializedFile($filename);
     }
 }

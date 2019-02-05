@@ -17,21 +17,22 @@ declare(strict_types=1);
 
 namespace Gpupo\BrazilianCars\Console\Command;
 
-use Gpupo\CommonSdk\Traits\ResourcesTrait;
+use DateTime;
+use Gpupo\BrazilianCars\Entity\Vehicle;
+use Gpupo\Common\Entity\CollectionInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-final class ModelsCommand extends AbstractCommand
+final class ExporterCommand extends AbstractCommand
 {
-    private $manager;
-
     protected function configure()
     {
         $this
-            ->setName('vehicle:models')
-            ->setDescription('Atualiza o cache dos modelos comercializados no Brasil')
+            ->setName('vehicle:exporter')
+            ->setDescription('Exporta a coleção de Vehicle para YAML')
             ->addArgument('filename', InputArgument::REQUIRED, 'A serialized filename path')
+            ->addArgument('output-filename', InputArgument::REQUIRED, 'A yaml filename path to output')
             ;
 
         parent::configure();
@@ -39,13 +40,7 @@ final class ModelsCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $filename = $input->getArgument('filename');
-        $this->manager = $this->getFactory()->factoryManager('vehicle');
-        $collection = $this->manager->getModels($renew = (null === $input->getOption('no-cache')));
-        $detailedModels = $this->manager->detailedModels($collection);
-        $this->saveResourceToSerializedFile($filename, $detailedModels);
-        $this->displayTableResults($output, $collection);
-        $output->writeln(sprintf('Filename <info>%d</> saved', $filename));
-        $output->writeln('<info>Done</>');
+        $collection = $this->reloadCollection($input->getArgument('filename'));
+        $this->saveResourceToYamlFile($input->getArgument('output-filename'), $collection->toArray());
     }
 }
