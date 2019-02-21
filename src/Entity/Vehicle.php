@@ -114,4 +114,79 @@ class Vehicle extends AbstractEntity implements EntityInterface
     {
         return sprintf('%s %s %s %s', $this->getManufacturer(), $this->getName(), $this->getModelYear(), $this->getFuelType());
     }
+
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
+
+    public function getCode(): ?string
+    {
+        return $this->code;
+    }
+
+    public function setFamily(string $family): void
+    {
+        $this->family = $family;
+    }
+
+    public function getFamily(): ?string
+    {
+        return $this->family;
+    }
+
+    public function setManufacturer(?string $manufacturer): void
+    {
+        $this->manufacturer = $manufacturer;
+    }
+
+    public function getManufacturer(): ?string
+    {
+        return $this->manufacturer;
+    }
+
+    public function setManufacturerId(?int $manufacturer_id): void
+    {
+        $this->manufacturer_id = $manufacturer_id;
+    }
+
+    public function getManufacturerId(): ?int
+    {
+        return $this->manufacturer_id;
+    }
+
+    public function setModelYear(?int $model_year): void
+    {
+        $this->model_year = $model_year;
+    }
+
+    public function getModelYear(): ?int
+    {
+        return $this->model_year;
+    }
+
+    public function setModelIdentifier($model_identifier): void
+    {
+        $this->model_identifier = $model_identifier;
+    }
+
+    public function getModelIdentifier(): ?int
+    {
+        return $this->model_identifier;
+    }
+
+    public function setFuelType(?string $fuel_type): void
+    {
+        $this->fuel_type = $fuel_type;
+    }
+
+    public function getFuelType(): ?string
+    {
+        return $this->fuel_type;
+    }
+
+    public function toArray(): array
+    {
+        return get_object_vars($this);
+    }
 }
