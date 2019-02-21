@@ -21,4 +21,55 @@ use Gpupo\CommonSchema\ORM\EntityRepository\AbstractEntityRepository;
 
 class VehicleRepository extends AbstractEntityRepository
 {
+    public function findDistinctManufacturers(): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('a.manufacturer, a.manufacturer_id');
+        $queryBuilder->orderBy('a.manufacturer', 'ASC');
+
+        $res = [];
+        foreach ($queryBuilder->distinct()->getQuery()->execute() as $i) {
+            $res[] = $i['manufacturer'];
+        }
+
+        return $res;
+    }
+
+    public function findDistinctFamilies($manufacturer = false): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('a.family');
+        $queryBuilder->orderBy('a.family', 'ASC');
+
+        if ($manufacturer) {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq('a.manufacturer', ':manufacturer'))
+                ->setParameter('manufacturer', $manufacturer);
+        }
+
+        $res = [];
+        foreach ($queryBuilder->distinct()->getQuery()->execute() as $i) {
+            $res[] = $i['family'];
+        }
+
+        return $res;
+    }
+
+    public function findDistinctModels($family = false): array
+    {
+        $queryBuilder = $this->createQueryBuilder('a');
+        $queryBuilder->select('a.name');
+        $queryBuilder->orderBy('a.name', 'ASC');
+
+        if ($family) {
+            $queryBuilder->andWhere($queryBuilder->expr()->eq('a.family', ':family'))
+                ->setParameter('family', $family);
+        }
+
+        $res = [];
+        foreach ($queryBuilder->distinct()->getQuery()->execute() as $i) {
+            $res[] = $i['name'];
+        }
+
+        return $res;
+    }
 }
