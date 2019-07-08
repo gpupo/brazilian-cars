@@ -1,7 +1,7 @@
 version: '3.3'
 services:
     php-fpm:
-        image: gpupo/container-orchestration:symfony-dev-${TAG_VERSION}
+        image: gpupo/container-orchestration:php-dev-${TAG_VERSION}
         volumes:
             - $PWD/:/var/www/app
         networks:
@@ -11,11 +11,6 @@ services:
         restart: always
         expose:
           - 3306
-        environment:
-          MYSQL_ROOT_PASSWORD: mas7er
-          MYSQL_USER: app_db_user
-          MYSQL_PASSWORD: app8as3
-          MYSQL_DATABASE: app
         networks:
           - backend
 
