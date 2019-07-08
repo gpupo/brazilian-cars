@@ -65,9 +65,9 @@ function app_doctrine_connection(): EntityManager
     $config = Setup::createAnnotationMetadataConfiguration([__DIR__.'/../src/Entity/'], true, null, null, false);
 
     $connectionParams = [
-        'dbname' => 'app',
-        'user' => 'app_db_user',
-        'password' => 'app8as3',
+        'dbname' => getenv('MYSQL_DATABASE'),
+        'user' => getenv('MYSQL_USER'),
+        'password' => getenv('MYSQL_PASSWORD'),
         'host' => getenv('dbhost'),
         'driver' => 'pdo_mysql',
         'charset' => 'utf8mb4',
