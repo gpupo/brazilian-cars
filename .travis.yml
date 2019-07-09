@@ -7,6 +7,7 @@ php:
 before_script:
   - composer self-update
   - composer install --prefer-dist
+  - touch .env.local
 script: vendor/bin/phpunit
 notifications:
   email: false

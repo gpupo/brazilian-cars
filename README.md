@@ -87,11 +87,6 @@ $service = Factory::getInstance()->getClient();
 
 ## Desenvolvimento
 
-Lista de todos dos veículos:
-
-	bin/brazilian-cars vehicle:process Resources/data/current/models.php-serialized.ser
-
-
 Cria o banco de dados
 
 	./vendor/bin/doctrine   orm:schema-tool:create
