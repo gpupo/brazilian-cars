@@ -2,6 +2,9 @@ version: '3.3'
 services:
     php-fpm:
         image: gpupo/container-orchestration:php-dev-${TAG_VERSION}
+        env_file:
+            - .env
+            - .env.local
         volumes:
             - $PWD/:/var/www/app
         networks:
@@ -9,6 +12,8 @@ services:
     mariadb:
         image: mariadb
         restart: always
+        env_file:
+            - .env
         expose:
           - 3306
         networks:
