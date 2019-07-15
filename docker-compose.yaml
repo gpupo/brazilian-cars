@@ -17,6 +17,8 @@ services:
         env_file:
             - .env
             - .env.local
+        volumes:
+            - $PWD/Resources/sql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
         expose:
           - 3306
         networks:
