@@ -14,6 +14,7 @@ services:
         restart: always
         env_file:
             - .env
+            - .env.local
         expose:
           - 3306
         networks:
@@ -27,6 +28,8 @@ services:
           - 80
         restart: always
         env_file:
+            - .env
+            - .env.local
             - config/phpmyadmin.env
         networks:
             - backend
