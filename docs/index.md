@@ -90,11 +90,6 @@ $service = Factory::getInstance()->getClient();
 
 ## Desenvolvimento
 
-Lista de todos dos veículos:
-
-	bin/brazilian-cars vehicle:process Resources/data/current/models.php-serialized.ser
-
-
 Cria o banco de dados
 
 	./vendor/bin/doctrine   orm:schema-tool:create
@@ -121,5 +116,13 @@ Processa os modelos, gerando uma coleção de Vehicle e persiste em banco de dad
 
 Recriar os arquivos SQL
 
-	mysqldump -u app_db_user -papp8as3 -h db-service app bc_vehicle  >  Resources/data/current/bc_vehicle.sql;
-	mysql -u app_db_user -papp8as3 -h db-service INFORMATION_SCHEMA --skip-column-names --batch -e "select table_name from tables where table_type = 'VIEW' and table_schema = 'app'" | xargs mysqldump -u app_db_user -papp8as3 -h db-service app > views.sql
+	mysqldump -u app_db_user -papp8as3 -h mariadb app bc_vehicle  >  Resources/data/current/bc_vehicle.sql;
+	mysql -u app_db_user -papp8as3 -h mariadb INFORMATION_SCHEMA --skip-column-names --batch -e "select table_name from tables where table_type = 'VIEW' and table_schema = 'app'" | xargs mysqldump -u app_db_user -papp8as3 -h mariadb app > views.sql
+
+
+### Update
+
+	bin/brazilian-cars vehicle:brands
+	bin/brazilian-cars vehicle:lists
+	bin/brazilian-cars vehicle:models Resources/data/current/models.php-serialized.ser
+	bin/brazilian-cars vehicle:build Resources/data/current/models.php-serialized.ser
