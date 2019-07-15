@@ -127,7 +127,7 @@ class VehicleManager extends MainManager
         $lambda = function ($collection) {
             $array = [];
             foreach ($collection as $model) {
-                if (\is_array($model) && array_key_exists('Value', $model)) {
+                if (\is_array($model) && \array_key_exists('Value', $model)) {
                     $array[] = [
                         'id' => $model['Value'],
                         'name' => $model['Label'],
@@ -149,7 +149,7 @@ class VehicleManager extends MainManager
 
     private function validateKeyValueLen($data, string $key, int $min, string $text)
     {
-        if (!array_key_exists($key, $data) || $min > \strlen((string) $data[$key])) {
+        if (!\array_key_exists($key, $data) || $min > \strlen((string) $data[$key])) {
             throw new \InvalidArgumentException(sprintf('%s [%s]', $text, $data[$key]));
         }
     }

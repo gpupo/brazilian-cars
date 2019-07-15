@@ -58,7 +58,7 @@ class MainManager extends GenericManager
                 $item = $this->normalizeBrand($item);
                 $key = $item['name'];
 
-                if (!array_key_exists($key, $list)) {
+                if (!\array_key_exists($key, $list)) {
                     $list[$key] = $item;
                 }
 
