@@ -7,9 +7,11 @@ services:
             - .env.local
         volumes:
             - $PWD/:/var/www/app
+        links:
+          - db-service
         networks:
             - backend
-    mariadb:
+    db-service:
         image: mariadb
         restart: always
         env_file:
@@ -23,7 +25,7 @@ services:
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links:
-          - mariadb
+          - db-service
         expose:
           - 80
         restart: always
