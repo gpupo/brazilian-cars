@@ -103,7 +103,7 @@ phan:
 
 ## Run phpunit testcases
 phpunit:
-	${VENDOR_BIN}/phpunit --testdox
+	source .env.test && ${VENDOR_BIN}/phpunit --testdox
 
 ## Update make file
 selfupdate:
