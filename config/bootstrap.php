@@ -35,6 +35,18 @@ if (!defined('ENDPOINT_DOMAIN')) {
     define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
 }
 
+function app_mysql_credentials(): array
+{
+    return [
+        'dbname' => getenv('MYSQL_DATABASE'),
+        'user' => getenv('MYSQL_USER'),
+        'password' => getenv('MYSQL_PASSWORD'),
+        'host' => getenv('dbhost'),
+        'driver' => 'pdo_mysql',
+        'charset' => 'utf8mb4',
+    ];
+}
+
 function app_doctrine_connection(): EntityManager
 {
     DoctrineTypesNormalizer::overrideTypes();
@@ -64,14 +76,5 @@ function app_doctrine_connection(): EntityManager
     $evm->addEventSubscriber($timestampableListener);
     $config = Setup::createAnnotationMetadataConfiguration([__DIR__.'/../src/Entity/'], true, null, null, false);
 
-    $connectionParams = [
-        'dbname' => getenv('MYSQL_DATABASE'),
-        'user' => getenv('MYSQL_USER'),
-        'password' => getenv('MYSQL_PASSWORD'),
-        'host' => getenv('dbhost'),
-        'driver' => 'pdo_mysql',
-        'charset' => 'utf8mb4',
-    ];
-
-    return EntityManager::create($connectionParams, $config, $evm);
+    return EntityManager::create(app_mysql_credentials(), $config, $evm);
 }
