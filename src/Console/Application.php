@@ -21,7 +21,7 @@ use Gpupo\BrazilianCars\Factory;
 use Gpupo\CommonSdk\Console\AbstractApplication;
 use Gpupo\CommonSdk\FactoryInterface;
 use Psr\Log\LoggerInterface;
-use Symfony\Contracts\Cache\CacheInterface;
+use Psr\SimpleCache\CacheInterface;
 
 final class Application extends AbstractApplication
 {
