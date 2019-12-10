@@ -29,7 +29,7 @@ if (!class_exists(Dotenv::class)) {
 }
 
 // load all the .env files
-(new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
+(new Dotenv(true))->loadEnv(dirname(__DIR__).'/.env');
 
 if (!defined('ENDPOINT_DOMAIN')) {
     define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
