@@ -12,7 +12,7 @@ Acesso a lista de automóveis comercializados no Brasil
 
 ## Requisitos para uso
 
-- PHP >= *7.3*
+- PHP *>=7.4*
 - [Composer Dependency Manager](http://getcomposer.org)
 - [PHP Curl extension](http://php.net/manual/en/intro.curl.php)
 - PHP Soap extension
