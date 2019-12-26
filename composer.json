@@ -29,6 +29,7 @@
     },
     "bin": ["bin/brazilian-cars"],
     "scripts": {
+        "test": "phpunit"
     },
     "config": {
         "preferred-install": "dist"
