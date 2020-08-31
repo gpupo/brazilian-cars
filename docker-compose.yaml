@@ -20,16 +20,18 @@ services:
         volumes:
             - $PWD/Resources/sql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
         expose:
-          - 3306
+            - 3306
         networks:
-          - backend
+            - backend
 
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
         links:
-          - db-service
+            - db-service
         expose:
-          - 80
+            - 80
+        ports:
+            - 8020:80
         restart: always
         env_file:
             - .env
