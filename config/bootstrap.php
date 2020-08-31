@@ -29,7 +29,7 @@ if (!class_exists(Dotenv::class)) {
 }
 
 // load all the .env files
-(new Dotenv(true))->loadEnv(dirname(__DIR__).'/.env');
+(new Dotenv())->loadEnv(dirname(__DIR__).'/.env');
 
 if (!defined('ENDPOINT_DOMAIN')) {
     define('ENDPOINT_DOMAIN', getenv('ENDPOINT_DOMAIN'));
@@ -41,7 +41,7 @@ function app_mysql_credentials(): array
         'dbname' => getenv('MYSQL_DATABASE'),
         'user' => getenv('MYSQL_USER'),
         'password' => getenv('MYSQL_PASSWORD'),
-        'host' => getenv('dbhost'),
+        'host' => getenv('DBHOST'),
         'driver' => 'pdo_mysql',
         'charset' => 'utf8mb4',
     ];
