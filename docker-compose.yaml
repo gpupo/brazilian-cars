@@ -44,6 +44,4 @@ networks:
     default:
         external:
             name: nginx-proxy
-    backend:
-        external:
-            name: localhost-backend
+    backend: ~
