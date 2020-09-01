@@ -31,12 +31,9 @@ jobs:
           fetch-depth: 1
       - name: Validate composer.json and composer.lock
         run: composer validate
-
-      - name: Install dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest --no-scripts
-      
       - name: Build env
         run: make build
-
+      - name: Install dependencies
+        run: make install
       - name: Run test suite
         run: composer run-script test
