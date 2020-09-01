@@ -5,7 +5,7 @@ Acesso a lista de automóveis comercializados no Brasil
 [![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EK6F2WRKG7GNN&item_name=brazilian-cars)
 
 [![Build Status](https://secure.travis-ci.org/gpupo/brazilian-cars.png?branch=master)](http://travis-ci.org/gpupo/brazilian-cars)
-
+![Github Workflow Test](https://github.com/gpupo/brazilian-cars/workflows/CI/badge.svg)
 
 ## Requisitos para uso
 
