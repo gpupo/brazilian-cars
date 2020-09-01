@@ -4,7 +4,6 @@ services:
         image: gpupo/container-orchestration:php-dev-${TAG_VERSION}
         env_file:
             - .env
-            - .env.local
         volumes:
             - $PWD/:/var/www/app
         links:
@@ -16,7 +15,6 @@ services:
         restart: always
         env_file:
             - .env
-            - .env.local
         volumes:
             - $PWD/Resources/sql/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
         expose:
@@ -35,7 +33,6 @@ services:
         restart: always
         env_file:
             - .env
-            - .env.local
             - config/phpmyadmin.env
         networks:
             - backend
