@@ -74,6 +74,8 @@ final class BuildCommand extends AbstractCommand
         $this->persist($input, $output, $this->collection);
         $output->writeln(sprintf('Filename <info>%s</> loaded, <info>%s</> Vehicles', $filename, $this->collection->count()), OutputInterface::VERBOSITY_VERBOSE);
         $this->saveResourceToSerializedFile($input->getArgument('output-filename'), $this->collection);
+
+        return 0;
     }
 
     protected function unitBrand(OutputInterface $output, CollectionInterface $brand): void

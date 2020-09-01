@@ -46,5 +46,7 @@ final class ModelsCommand extends AbstractCommand
         $this->displayTableResults($output, $collection);
         $output->writeln(sprintf('Filename <info>%d</> saved', $filename));
         $output->writeln('<info>Done</>');
+
+        return 0;
     }
 }

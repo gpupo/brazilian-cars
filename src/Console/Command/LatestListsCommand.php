@@ -38,5 +38,7 @@ final class LatestListsCommand extends AbstractCommand
         $l = array_values($collection->first());
         $output->writeln(sprintf('Latest Table is <info>%s</> published in <fg=yellow>%s</>', ...$l));
         $this->displayTableResults($output, $collection->slice(0, 3));
+
+        return 0;
     }
 }

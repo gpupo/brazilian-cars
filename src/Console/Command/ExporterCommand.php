@@ -39,5 +39,7 @@ final class ExporterCommand extends AbstractCommand
     {
         $collection = $this->reloadCollection($input->getArgument('filename'));
         $this->saveResourceToYamlFile($input->getArgument('output-filename'), $collection->toArray());
+        
+        return 0;
     }
 }
