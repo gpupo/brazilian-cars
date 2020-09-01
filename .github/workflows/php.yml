@@ -12,7 +12,6 @@ on:
     branches:
       - master
       - develop
-      - verbose
     paths-ignore:
       - '**.md'
       - 'examples/**'
@@ -35,6 +34,9 @@ jobs:
 
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress --no-suggest --no-scripts --ignore-platform-reqs
+      
+      - name: Build env
+        run: make build
 
       - name: Run test suite
         run: composer run-script test

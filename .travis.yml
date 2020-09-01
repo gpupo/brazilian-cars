@@ -5,6 +5,7 @@ os:
 php:
   - 7.4
 before_script:
+  - make build
   - composer self-update
   - composer install --prefer-dist
   - touch .env.local
