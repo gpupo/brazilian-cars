@@ -87,6 +87,11 @@ $service = Factory::getInstance()->getClient();
 
 ## Desenvolvimento
 
+Preparação 
+
+	make build;
+	make install;
+
 Cria o banco de dados
 
 	./vendor/bin/doctrine   orm:schema-tool:create
