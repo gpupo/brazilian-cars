@@ -38,6 +38,9 @@ final class StatusCommand extends AbstractCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        foreach ($_ENV as $k => $v) {
+            $output->writeln(sprintf('>> %s: <info>%s</>', $k, $v));
+        }
         foreach (app_mysql_credentials() as $k => $v) {
             $output->writeln(sprintf('>> %s: <info>%s</>', $k, $v));
         }
@@ -50,5 +53,7 @@ final class StatusCommand extends AbstractCommand
         } catch (\Exception $e) {
             $output->writeln('<error>Failed to connect</>');
         }
+
+        return 0;
     }
 }

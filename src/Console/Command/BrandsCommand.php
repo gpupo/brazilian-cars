@@ -36,5 +36,7 @@ final class BrandsCommand extends AbstractCommand
         $manager = $this->getFactory()->factoryManager('main');
         $collection = $manager->getBrands($renew = (null === $input->getOption('no-cache')));
         $this->displayTableResults($output, $collection);
+
+        return 0;
     }
 }
