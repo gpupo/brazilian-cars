@@ -16,9 +16,5 @@ ifneq ($(wildcard vendor/gpupo/common-sdk/bin/make-file/targets/*),)
         include vendor/gpupo/common-dev/bin/make-file/targets/*
     endif
 
-    # include bin/make-file/targets/*.mk
+    include bin/make-file/targets/*.mk
 endif
-
-## Install PHP libs
-install:
-	composer install --prefer-dist --ignore-platform-reqs --no-scripts

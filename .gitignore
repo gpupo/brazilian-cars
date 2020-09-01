@@ -8,3 +8,4 @@ Resources/*
 *.cache
 phpunit.xml
 /.env.local
+/.env
