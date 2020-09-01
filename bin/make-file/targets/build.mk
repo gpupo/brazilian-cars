@@ -5,4 +5,5 @@ build:
     
 ## Install PHP libs
 install:
+	composer self-update
 	composer install --prefer-dist --no-scripts

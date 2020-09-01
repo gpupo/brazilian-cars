@@ -6,8 +6,7 @@ php:
   - 7.4
 before_script:
   - make build
-  - composer self-update
-  - composer install --prefer-dist
+  - make install
 script: composer run-script test
 notifications:
   email: false
