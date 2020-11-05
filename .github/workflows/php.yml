@@ -8,13 +8,6 @@ on:
     paths-ignore:
       - '**.md'
       - 'examples/**'
-  push:
-    branches:
-      - master
-      - develop
-    paths-ignore:
-      - '**.md'
-      - 'examples/**'
 jobs:
   run:
     name: Run
