@@ -11,7 +11,7 @@
     "keywords": ["cars", "sdk", "api"],
     "license": "MIT",
     "require": {
-        "php": ">=7.4 || ^8.0",
+        ="php": "^8.0",
         "gpupo/common-sdk": "^6.0|dev-master"
     },
     "require-dev": {
