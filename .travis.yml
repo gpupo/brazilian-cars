@@ -9,7 +9,6 @@ jobs:
   allow_failures:
   - php: nightly
 before_script:
-  - make build
   - make install
 script: composer run-script test
 notifications:
