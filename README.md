@@ -2,14 +2,12 @@
 
 Acesso a lista de automóveis comercializados no Brasil
 
-[![Paypal Donations](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=EK6F2WRKG7GNN&item_name=brazilian-cars)
-
-[![Build Status](https://secure.travis-ci.org/gpupo/brazilian-cars.png?branch=master)](http://travis-ci.org/gpupo/brazilian-cars)
+[![Build Status](https://secure.travis-ci.org/gpupo/brazilian-cars.png?branch=main)](http://travis-ci.org/gpupo/brazilian-cars)
 ![Github Workflow Test](https://github.com/gpupo/brazilian-cars/workflows/CI/badge.svg)
 
 ## Requisitos para uso
 
-- PHP *>=7.4*
+- PHP *>=8.0*
 - [Composer Dependency Manager](http://getcomposer.org)
 - [PHP Curl extension](http://php.net/manual/en/intro.curl.php)
 - PHP Soap extension
