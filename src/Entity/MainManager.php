@@ -19,9 +19,9 @@ class MainManager extends GenericManager
 
     protected $types = [
         '1' => 'Car',
-        // '2' => 'Motorcycle',
-        // '3' => 'Truck',
-        //'4' => 'MotorizedBicycle',
+        '2' => 'Motorcycle',
+        '3' => 'Truck',
+        '4' => 'MotorizedBicycle',
     ];
 
     public function getLists(bool $renew = false)
