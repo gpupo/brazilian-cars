@@ -21,9 +21,13 @@ class Client extends ClientAbstract implements ClientInterface
 
     protected function renderAuthorization(): array
     {
-        return [
+        $headers = [
             'Host' => ENDPOINT_DOMAIN,
             'Referer' => 'http://'.ENDPOINT_DOMAIN,
         ];
+
+        printf($headers);
+        
+        return $headers;
     }
 }
