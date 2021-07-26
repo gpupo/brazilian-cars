@@ -2,8 +2,7 @@
 
 Acesso a lista de automóveis comercializados no Brasil
 
-[![Build Status](https://secure.travis-ci.org/gpupo/brazilian-cars.png?branch=main)](http://travis-ci.org/gpupo/brazilian-cars)
-![Github Workflow Test](https://github.com/gpupo/brazilian-cars/workflows/CI/badge.svg)
+[![Open in Visual Studio Code](https://open.vscode.dev/badges/open-in-vscode.svg)](https://open.vscode.dev/gpupo/brazilian-cars)
 
 ## Requisitos para uso
 
