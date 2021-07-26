@@ -4,6 +4,8 @@
 .SILENT:
 CURRENT_DIR := $(shell pwd)
 
+include bin/make-file/targets/*.mk
+
 ## Install vendor
 install:
 	COMPOSER_MEMORY_LIMIT=9G composer install --prefer-dist --no-scripts
