@@ -25,8 +25,6 @@ class Client extends ClientAbstract implements ClientInterface
             'Host' => ENDPOINT_DOMAIN,
             'Referer' => 'http://'.ENDPOINT_DOMAIN,
         ];
-
-        printf($headers);
         
         return $headers;
     }
