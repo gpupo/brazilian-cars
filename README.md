@@ -118,9 +118,14 @@ Processa os modelos, gerando uma coleção de Vehicle e persiste em banco de dad
 
 Recriar os arquivos SQL
 
-	mysqldump -u app_db_user -papp8as3 -h mariadb app bc_vehicle  >  Resources/data/current/bc_vehicle.sql;
-	mysql -u app_db_user -papp8as3 -h mariadb INFORMATION_SCHEMA --skip-column-names --batch -e "select table_name from tables where table_type = 'VIEW' and table_schema = 'app'" | xargs mysqldump -u app_db_user -papp8as3 -h mariadb app > Resources/data/current/views.sql
+	mysqldump -u app_db_user -papp8as3 -h db-service app bc_vehicle  >  Resources/data/current/bc_vehicle.sql;
+	mysql -u app_db_user -papp8as3 -h db-service INFORMATION_SCHEMA --skip-column-names --batch -e "select table_name from tables where table_type = 'VIEW' and table_schema = 'app'" | xargs mysqldump -u app_db_user -papp8as3 -h db-service app > Resources/data/current/views.sql
 
+Se preferir gerar um dump incremental com replace (e sem create table)
+
+	mysqldump -u app_db_user -papp8as3 -h db-service app bc_vehicle --replace --no-create-info  >  Resources/data/current/bc_vehicle_replace.sql;
+
+- se for importar o dump em um Gerenciador de Banco de Dados, é recomendável compactar antes e desmarcar a verificação de chave estrangeira
 
 ### Update
 
