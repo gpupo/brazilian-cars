@@ -54,6 +54,9 @@ class MainManager extends GenericManager
         foreach ($this->types as $type_id => $type_name) {
             $collection = $this->getBrandsWithType($type_id, $renew);
             foreach ($collection as $item) {
+                if (!is_array($item)) {
+                    continue;
+                }
                 $item = $this->normalizeBrand($item);
                 $key = $item['name'];
 
